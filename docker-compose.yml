@@ -2,12 +2,14 @@ version: '3.4'
 services:
     fizzbuzz:
         build:
+            # the right Dockerfile path is inject via environment variable
+            dockerfile: ${D_PATH:-Dockerfile}
             context: .
         ports:
             - 3000:3000
-            - 2345:2345
         environment:
             - PORT=3000
             - ENV=debug
         volumes:
-            - ./:/go/cmd/app
+            # needed for Dockerfile.dev for file watch mode
+            - ./:/go/src

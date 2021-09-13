@@ -1,0 +1,13 @@
+FROM golang:1.16 as deps
+
+WORKDIR /go/src
+
+RUN go install github.com/cespare/reflex@latest
+
+FROM deps as app
+
+COPY *.go ./
+COPY go.mod ./
+# COPY go.sum ./
+
+ENTRYPOINT reflex -s -r '\.go$' go run main.go --decoration=none
