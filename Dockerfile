@@ -4,14 +4,15 @@ WORKDIR /go/src
 
 COPY Makefile ./
 COPY go.mod ./
-# COPY go.sum ./
+COPY go.sum ./
 
 RUN go mod download
 
 FROM deps as build
 
-COPY *.go ./
-RUN go build -o /go/bin/app
+COPY cmd cmd
+COPY pkg pkg
+RUN go build -o /go/bin/app cmd/fizzbuzz/*.go
 
 FROM gcr.io/distroless/base-debian10
 
