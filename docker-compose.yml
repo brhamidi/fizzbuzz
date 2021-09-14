@@ -5,11 +5,31 @@ services:
             # the right Dockerfile path is inject via environment variable
             dockerfile: ${D_PATH:-Dockerfile}
             context: .
+        depends_on:
+            - postgres
         ports:
             - 3000:3000
         environment:
+            # App config
             - PORT=3000
             - ENV=debug
+            # Postgres config
+            - PG_HOST=postgres
+            - PG_USER=fizzbuzz
+            - PG_NAME=fizzbuzz
+            - PG_PASSWORD=fizzbuzz
         volumes:
             # needed for Dockerfile.dev for file watch mode
             - ./:/go/src
+
+    postgres:
+        container_name: postgres
+        image: postgres:13
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=fizzbuzz
+            - POSTGRES_PASSWORD=fizzbuzz
+        # Note: uncoment this volume for persistance purpose
+        # volumes:
+        #    - ${HOME}/.data/postgres/fizzbuzz:/var/lib/postgresql/data:delegated

@@ -6,8 +6,14 @@ import (
 )
 
 type conf struct {
+	// App config
 	Port string `required:"true"`
 	Env  string `required:"true" validate:"eq=debug|eq=release"`
+	// Postgres config
+	PGUser     string `required:"true" split_words:"true"`
+	PGName     string `required:"true" split_words:"true"`
+	PGPassword string `required:"true" split_words:"true"`
+	PGHost     string `required:"true" split_words:"true"`
 }
 
 func config() (conf, error) {
