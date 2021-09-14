@@ -1,4 +1,12 @@
-# fizzbuzz
+### Todo
+
+- [ ] Unit test
+- [ ] Swagger auto generate
+- [ ] Documentation much as possible
+- [ ] Make Database operations thread safe
+
+# Fizzbuzz
+
 Fizz-buzz server
 
 ## Requirements
