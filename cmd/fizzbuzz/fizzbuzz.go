@@ -16,10 +16,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s, err := storage.NewPersistant(c.PGHost, c.PGUser, c.PGPassword, c.PGName)
-	if err != nil {
-		log.Fatal(err)
-	}
+	s := storage.NewInmemory()
 
 	server := http.NewServer(c.Env, s, log)
 	server.Run(":" + c.Port)

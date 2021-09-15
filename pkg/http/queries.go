@@ -9,15 +9,8 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-// use a single instance of Validate, it caches struct info
-// https://github.com/go-playground/validator/blob/master/_examples/simple/main.go#L27
-var validate *validator.Validate
-
-func init() {
-	validate = validator.New()
-}
-
 // Todo add description
+// TODO maybe remove validator, too overkill and verbose for this project
 type queries struct {
 	V1    int    `validate:"required,gt=0" form:"int1"`
 	V2    int    `validate:"required,gt=0" form:"int2"`
@@ -27,7 +20,7 @@ type queries struct {
 }
 
 func (q queries) String() string {
-	return fmt.Sprintf("int1:%d,int2:%d,limit:%d,str1:%s,str2:%s", q.V1, q.V2, q.Limit, q.S1, q.S2)
+	return fmt.Sprintf("%d,%d,%d,%s,%s", q.V1, q.V2, q.Limit, q.S1, q.S2)
 }
 
 func (q queries) isValid() error {

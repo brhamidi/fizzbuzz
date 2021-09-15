@@ -7,6 +7,5 @@ type HealthResp struct {
 }
 
 func (h handler) Health(c *gin.Context) {
-	h.log.Info("requested")
-	c.JSON(200, HealthResp{true})
+	c.JSON(200, &ResponseSuccess{&HealthResp{true}})
 }

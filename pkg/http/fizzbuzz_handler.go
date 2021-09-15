@@ -1,16 +1,10 @@
 package http
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-)
-
-var (
-	errInvalidQueries = errors.New("failed to validate input queries")
-	errStorage        = errors.New("failed to perform storage operation")
 )
 
 // Todo add description
@@ -32,7 +26,10 @@ func (h handler) Fizzbuzz(c *gin.Context) {
 
 	result := input.Compute()
 
-	// increment stats DB
+	if err := h.s.Increment(input.String()); err != nil {
+		errWrapped := fmt.Errorf("%w: %s", errStorage, err)
+		h.log.Error(errWrapped)
+	}
 
 	c.JSON(200, &ResponseSuccess{result})
 }
