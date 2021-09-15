@@ -12,7 +12,8 @@ type handler struct {
 }
 
 const (
-	healthRoute = "/health"
+	healthRoute   = "/health"
+	FizzbuzzRoute = "/fizzbuzz"
 )
 
 func NewServer(env string, s storage.Storage, log logger.Logger) *gin.Engine {
@@ -24,6 +25,7 @@ func NewServer(env string, s storage.Storage, log logger.Logger) *gin.Engine {
 	router.Use(gin.Recovery())
 
 	router.GET(healthRoute, h.Health)
+	router.GET(FizzbuzzRoute, h.Fizzbuzz)
 
 	return router
 }

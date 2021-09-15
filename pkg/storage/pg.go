@@ -19,7 +19,8 @@ func NewPersistant(host, user, passwd, name string) (*pg, error) {
 	var driver *gorm.DB
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", host, user, passwd, name)
-	if driver, err = gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)}); err != nil {
+	driver, err = gorm.Open(postgres.Open(dsn), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)})
+	if err != nil {
 		return &pg{}, err
 	}
 	return &pg{driver: driver}, nil

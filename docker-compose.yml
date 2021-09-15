@@ -2,7 +2,7 @@ version: '3.4'
 services:
     fizzbuzz:
         build:
-            # the right Dockerfile path is inject via environment variable
+            # the right Dockerfile path is injected via environment variable
             dockerfile: ${D_PATH:-Dockerfile}
             context: .
         depends_on:
@@ -19,7 +19,7 @@ services:
             - PG_NAME=fizzbuzz
             - PG_PASSWORD=fizzbuzz
         volumes:
-            # needed for Dockerfile.dev for file watch mode
+            # needed in Dockerfile.dev for file watch mode
             - ./:/go/src
 
     postgres:
