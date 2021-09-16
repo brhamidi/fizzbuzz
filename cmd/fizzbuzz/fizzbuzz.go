@@ -14,7 +14,8 @@ import (
 const appName = "fizzbuzz"
 
 var (
-	errParseEnv = errors.New("failed to parse environment variable")
+	errParseEnv      = errors.New("failed to parse environment variable")
+	errStoreInstance = errors.New("failed to instanciate storage")
 )
 
 type conf struct {
@@ -50,7 +51,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	store := storage.NewInmemory()
+	store, err := storage.NewPersistant(c.PGHost, c.PGUser, c.PGPassword, c.PGName)
+	if err != nil {
+		log.Fatal(fmt.Errorf("%w: %s", errStoreInstance, err))
+	}
 
 	server := http.NewServer(c.Env, store, log)
 	server.Run(":" + c.Port)

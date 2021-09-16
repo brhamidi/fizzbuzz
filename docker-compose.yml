@@ -32,5 +32,5 @@ services:
         environment:
             - POSTGRES_USER=fizzbuzz
             - POSTGRES_PASSWORD=fizzbuzz
-        # volumes:
-        #    - ${HOME}/.data/postgres/fizzbuzz:/var/lib/postgresql/data:delegated
+        volumes:
+           - ${HOME}/.data/postgres/fizzbuzz:/var/lib/postgresql/data:delegated
