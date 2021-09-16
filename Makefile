@@ -4,7 +4,7 @@ D_PATH=Dockerfile
 IGNORED_FOLDER=.ignore
 COVERAGE_FILE=$(IGNORED_FOLDER)/coverage.out
 
-.PHONY: up dev down tools-test cover-html cover clean test mock
+.PHONY: up dev down tools cover-html cover clean test mock
 
 ## up the local stack
 up:
@@ -47,8 +47,17 @@ clean:
 	@rm -rf ${IGNORED_FOLDER}
 	@rm -rf ${COVERAGE_FILE}
 
+
+##
+## Swagger API generation
+##
+swag:
+	@swag init -g ./pkg/http/server.go
+
+
 ##
 ## Tooling
 ##
-tools-test:
+tools:
 	@go install github.com/golang/mock/mockgen@latest
+	@go install github.com/swaggo/swag/cmd/swag@latest

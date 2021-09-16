@@ -7,7 +7,6 @@ import (
 )
 
 // Todo add description
-// TODO maybe remove validator, too overkill and verbose for this project
 type Fizzbuzz struct {
 	V1    int    `form:"int1"`
 	V2    int    `form:"int2"`
@@ -21,10 +20,12 @@ var (
 	errString  = errors.New("string parameter must be not empty")
 )
 
+// TODO add description
 func (q Fizzbuzz) Key() string {
 	return fmt.Sprintf("%d,%d,%d,%s,%s", q.V1, q.V2, q.Limit, q.S1, q.S2)
 }
 
+// TODO add description
 func (q Fizzbuzz) IsValid() error {
 	if q.V1 <= 0 || q.V2 <= 0 || q.Limit <= 0 {
 		return errInteger
@@ -35,6 +36,7 @@ func (q Fizzbuzz) IsValid() error {
 	return nil
 }
 
+// TODO add description
 func (q Fizzbuzz) Compute() []string {
 	r := make([]string, 0, q.Limit)
 	for i := 1; i <= q.Limit; i++ {

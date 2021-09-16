@@ -9,6 +9,9 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/stretchr/testify v1.7.0
+	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
+	github.com/swaggo/gin-swagger v1.3.1
+	github.com/swaggo/swag v1.5.1
 	gorm.io/driver/postgres v1.1.1
 	gorm.io/gorm v1.21.15
 )

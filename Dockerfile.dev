@@ -8,8 +8,9 @@ FROM deps as app
 
 COPY cmd cmd
 COPY pkg pkg
+COPY docs docs
 
 COPY go.mod ./
 COPY go.sum ./
 
-ENTRYPOINT reflex -s -r '\.go$' go run cmd/fizzbuzz/*.go --decoration=none
+ENTRYPOINT reflex -s -r '\.go$' go run cmd/fizzbuzz/fizzbuzz.go --decoration=none

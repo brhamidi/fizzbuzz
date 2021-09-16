@@ -3,7 +3,7 @@ package http
 // ResponseSuccess describes an generic API response for success
 type ResponseSuccess struct {
 	Data interface{} `json:"data"`
-}
+} //@name ResponseSuccess
 
 // ResponseError describes an generic API response for error
 type ResponseError struct {
