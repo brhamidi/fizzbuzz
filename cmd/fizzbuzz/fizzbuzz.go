@@ -16,8 +16,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	s := storage.NewInmemory()
+	store := storage.NewInmemory()
 
-	server := http.NewServer(c.Env, s, log)
+	server := http.NewServer(c.Env, store, log)
 	server.Run(":" + c.Port)
 }

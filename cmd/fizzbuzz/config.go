@@ -1,8 +1,15 @@
 package main
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/kelseyhightower/envconfig"
+)
+
+var (
+	errParseEnv = errors.New("failed to parse environment variable")
 )
 
 type conf struct {
@@ -20,11 +27,11 @@ func config() (conf, error) {
 	var c conf
 
 	if err := envconfig.Process("", &c); err != nil {
-		return conf{}, err
+		return conf{}, fmt.Errorf("%w: %s", errParseEnv, err)
 	}
 
 	if err := validator.New().Struct(&c); err != nil {
-		return conf{}, err
+		return conf{}, fmt.Errorf("%w: %s", errParseEnv, err)
 	}
 
 	return c, nil

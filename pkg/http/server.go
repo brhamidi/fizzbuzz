@@ -7,8 +7,8 @@ import (
 )
 
 type handler struct {
-	s   storage.Storage
-	log logger.Logger
+	store storage.Storage
+	log   logger.Logger
 }
 
 const (
@@ -17,15 +17,15 @@ const (
 	StatsRoute    = "/stats"
 )
 
-func NewServer(env string, s storage.Storage, log logger.Logger) *gin.Engine {
-	h := handler{s, log}
+func NewServer(env string, store storage.Storage, log logger.Logger) *gin.Engine {
+	h := handler{store, log}
 
 	gin.SetMode(env)
 
 	router := gin.New()
 	router.Use(gin.Recovery())
 
-	// useful for monitoring our service
+	// useful for monitoring our service and CI/CD tools
 	router.GET(healthRoute, h.Health)
 
 	router.GET(FizzbuzzRoute, h.Fizzbuzz)
