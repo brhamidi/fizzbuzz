@@ -16,16 +16,21 @@ type Fizzbuzz struct {
 	S2    string `form:"str2"`
 }
 
+var (
+	errInteger = errors.New("integer parameter must be greater than zero")
+	errString  = errors.New("string parameter must be not empty")
+)
+
 func (q Fizzbuzz) Key() string {
 	return fmt.Sprintf("%d,%d,%d,%s,%s", q.V1, q.V2, q.Limit, q.S1, q.S2)
 }
 
 func (q Fizzbuzz) IsValid() error {
 	if q.V1 <= 0 || q.V2 <= 0 || q.Limit <= 0 {
-		return errors.New("integer parameter must be greater than zero")
+		return errInteger
 	}
 	if q.S1 == "" || q.S2 == "" {
-		return errors.New("string parameter must be not empty")
+		return errString
 	}
 	return nil
 }

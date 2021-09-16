@@ -13,7 +13,7 @@ func (h handler) GetStats(c *gin.Context) {
 	key, hits, err := h.store.Max()
 	if err != nil {
 		h.log.Error(fmt.Errorf("%w: %s", errUserInternal, err))
-		c.JSON(http.StatusInternalServerError, NewResponseError(errUserInternal))
+		c.JSON(http.StatusInternalServerError, newResponseError(errUserInternal))
 		return
 	}
 
@@ -29,7 +29,7 @@ func (h handler) GetStats(c *gin.Context) {
 func (h handler) DeleteStats(c *gin.Context) {
 	if err := h.store.Reset(); err != nil {
 		h.log.Error(fmt.Errorf("%w: %s", errUserInternal, err))
-		c.JSON(http.StatusInternalServerError, NewResponseError(errUserInternal))
+		c.JSON(http.StatusInternalServerError, newResponseError(errUserInternal))
 		return
 	}
 

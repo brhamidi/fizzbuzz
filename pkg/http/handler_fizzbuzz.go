@@ -14,13 +14,13 @@ func (h handler) Fizzbuzz(c *gin.Context) {
 
 	if err := c.ShouldBindQuery(&input); err != nil {
 		errWrapped := fmt.Errorf("%w: %s", errInvalidQuery, err)
-		c.JSON(http.StatusBadRequest, NewResponseError(errWrapped))
+		c.JSON(http.StatusBadRequest, newResponseError(errWrapped))
 		return
 	}
 
 	if err := input.IsValid(); err != nil {
 		errWrapped := fmt.Errorf("%w: %s", errInvalidQuery, err)
-		c.JSON(http.StatusBadRequest, NewResponseError(errWrapped))
+		c.JSON(http.StatusBadRequest, newResponseError(errWrapped))
 		return
 	}
 

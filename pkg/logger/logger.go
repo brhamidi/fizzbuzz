@@ -6,6 +6,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+//go:generate mockgen -package=mock -source=logger.go -destination=$MOCK_FOLDER/logger.go Logger
+
 type Logger interface {
 	Info(...interface{})
 	Error(...interface{})

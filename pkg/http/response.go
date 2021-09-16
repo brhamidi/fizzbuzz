@@ -15,7 +15,7 @@ type Error struct {
 	Message string `json:"message"`
 } //@name Error
 
-func NewResponseError(errs ...error) ResponseError {
+func newResponseError(errs ...error) ResponseError {
 	var resp ResponseError
 
 	for _, err := range errs {
