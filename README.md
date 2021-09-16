@@ -1,9 +1,7 @@
 ### Todo
 
-- [ ] Unit test
-- [ ] Swagger auto generate
 - [ ] Documentation much as possible
-- [ ] Try to implment mongodb instead pg as Key/Value database for persistant mode
+- [ ] Try to implment mongodb/redis/pg as Key/Value database for persistant mode
 - [ ] Make a global overview of the project ( self pre-review )
 
 # Fizzbuzz
