@@ -6,7 +6,9 @@ services:
             dockerfile: ${D_PATH:-Dockerfile}
             context: .
         depends_on:
-            - postgres
+            - redis
+        links:
+            - redis
         ports:
             - 3000:3000
         # temporary hack because sometimes the service fizzbuzz up before postgres is up
@@ -15,22 +17,21 @@ services:
             # App config
             - PORT=3000
             - ENV=debug
-            # Postgres config
-            - PG_HOST=postgres
-            - PG_USER=fizzbuzz
-            - PG_NAME=fizzbuzz
-            - PG_PASSWORD=fizzbuzz
+            - STORE_MODE=persistant
+            # Redis config
+            - REDIS_HOST=redis
+            - REDIS_PORT=6379
         volumes:
             # needed in Dockerfile.dev for file watch mode
             - ./:/go/src
 
-    postgres:
-        container_name: postgres
-        image: postgres:13
-        ports:
-            - 5432:5432
+    redis:
+        container_name: redis
+        image: redis
         environment:
-            - POSTGRES_USER=fizzbuzz
-            - POSTGRES_PASSWORD=fizzbuzz
+            - ALLOW_EMPTY_PASSWORD=yes
+        ports:
+            - 6379:6379
         volumes:
-           - ${HOME}/.data/postgres/fizzbuzz:/var/lib/postgresql/data:delegated
+            - ${HOME}/.data/redis:/data
+        entrypoint: redis-server --appendonly yes

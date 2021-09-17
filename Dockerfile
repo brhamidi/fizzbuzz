@@ -2,7 +2,6 @@ FROM golang:1.16 AS deps
 
 WORKDIR /go/src
 
-COPY Makefile ./
 COPY go.mod ./
 COPY go.sum ./
 
@@ -21,3 +20,5 @@ FROM gcr.io/distroless/base-debian10
 COPY --from=build /go/bin/app /
 
 ENTRYPOINT ["/app"]
+
+# Make Dockerfile et Dockerfile.dev perform make swag to allow user to not have go to building the project

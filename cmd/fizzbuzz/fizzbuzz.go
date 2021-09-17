@@ -20,13 +20,12 @@ var (
 
 type conf struct {
 	// App config
-	Port string `required:"true"`
-	Env  string `required:"true" validate:"eq=debug|eq=release"`
-	// Postgres config
-	PGUser     string `required:"true" split_words:"true"`
-	PGName     string `required:"true" split_words:"true"`
-	PGPassword string `required:"true" split_words:"true"`
-	PGHost     string `required:"true" split_words:"true"`
+	Port      string `required:"true"`
+	Env       string `required:"true" validate:"eq=debug|eq=release"`
+	StoreMode string `required:"true" validate:"eq=inmemory|eq=persistant" split_words:"true"`
+	// Redis config
+	RedisHost string `required:"true" split_words:"true"`
+	RedisPort string `required:"true" split_words:"true"`
 }
 
 func config() (conf, error) {
@@ -51,9 +50,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	store, err := storage.NewPersistant(c.PGHost, c.PGUser, c.PGPassword, c.PGName)
-	if err != nil {
-		log.Fatal(fmt.Errorf("%w: %s", errStoreInstance, err))
+	var store storage.Storage
+
+	if c.StoreMode == "inmemory" {
+		store = storage.NewInmemory()
+	} else {
+		store, err = storage.NewPersistant(c.RedisHost, c.RedisPort)
+		if err != nil {
+			log.Fatal(fmt.Errorf("%w: %s", errStoreInstance, err))
+		}
 	}
 
 	server := http.NewServer(c.Env, store, log)

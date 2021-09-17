@@ -4,10 +4,18 @@ import (
 	"sync"
 )
 
+// verify interface compliance
+var _ Storage = (*inmemory)(nil)
+
 type inmemory struct {
-	mu   sync.RWMutex
-	data map[string]int
+	mu sync.RWMutex
+	// represent map of [request]hit
+	data    map[string]int
+	maxKey  string
+	maxHits int
 }
+
+// TODO apply the logic of keep the MAX value in seperate variable to prevent looping in GetStats operation
 
 func NewInmemory() *inmemory {
 	return &inmemory{data: make(map[string]int)}
@@ -23,6 +31,11 @@ func (i *inmemory) Increment(key string) error {
 	} else {
 		i.data[key] = v + 1
 	}
+
+	if i.data[key] > i.maxHits {
+		i.maxHits = i.data[key]
+		i.maxKey = key
+	}
 	return nil
 }
 
@@ -30,18 +43,7 @@ func (i *inmemory) Max() (string, int, error) {
 	i.mu.Lock()
 	defer i.mu.Unlock()
 
-	if len(i.data) == 0 {
-		return "", 0, nil
-	}
-
-	key, hits := "", 0
-	for k, v := range i.data {
-		if v > hits {
-			key, hits = k, v
-		}
-	}
-
-	return key, hits, nil
+	return i.maxKey, i.maxHits, nil
 }
 
 func (i *inmemory) Reset() error {
@@ -49,5 +51,7 @@ func (i *inmemory) Reset() error {
 	defer i.mu.Unlock()
 
 	i.data = make(map[string]int)
+	i.maxHits = 0
+	i.maxKey = ""
 	return nil
 }
