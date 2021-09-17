@@ -21,7 +21,10 @@ func TestHandler_Fizzbuzz(t *testing.T) {
 	mockLogger := mock.NewMockLogger(ctrl)
 
 	t.Run("should return BadRequest due to invalid input", func(t *testing.T) {
-		router := NewServer(gin.TestMode, nil, nil)
+		router := NewServer(gin.TestMode, nil, mockLogger)
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		w := httptest.NewRecorder()
 
@@ -33,7 +36,10 @@ func TestHandler_Fizzbuzz(t *testing.T) {
 	})
 
 	t.Run("should return BadRequest due to bad input, some parameters are missing", func(t *testing.T) {
-		router := NewServer(gin.TestMode, nil, nil)
+		router := NewServer(gin.TestMode, nil, mockLogger)
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		w := httptest.NewRecorder()
 
@@ -48,6 +54,9 @@ func TestHandler_Fizzbuzz(t *testing.T) {
 		errMock := errors.New("mock")
 		mockStorage.EXPECT().Increment("3,5,10,hello,world").Return(errMock)
 		mockLogger.EXPECT().Error(gomock.Any())
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()
@@ -64,6 +73,9 @@ func TestHandler_Fizzbuzz(t *testing.T) {
 
 	t.Run("should be ok", func(t *testing.T) {
 		mockStorage.EXPECT().Increment("3,5,10,hello,world")
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()

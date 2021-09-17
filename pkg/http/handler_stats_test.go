@@ -26,6 +26,9 @@ func TestHandler_GetStats(t *testing.T) {
 		mockStorage.EXPECT().Max().Return("", 0, errors.New("mock"))
 		mockLogger.EXPECT().Error(gomock.Any())
 
+		// accesslog
+		mockLogger.EXPECT().Error(gomock.Any())
+
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()
 
@@ -41,6 +44,9 @@ func TestHandler_GetStats(t *testing.T) {
 	t.Run("should return http status code 204 no content if fuzzbuzz has never been called", func(t *testing.T) {
 		mockStorage.EXPECT().Max().Return("", 0, nil)
 
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
+
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()
 
@@ -52,6 +58,9 @@ func TestHandler_GetStats(t *testing.T) {
 
 	t.Run("should be ok", func(t *testing.T) {
 		mockStorage.EXPECT().Max().Return("key", 42, nil)
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()
@@ -78,6 +87,9 @@ func TestHandler_DeleteStats(t *testing.T) {
 		mockStorage.EXPECT().Reset().Return(errors.New("mock"))
 		mockLogger.EXPECT().Error(gomock.Any())
 
+		// accesslog
+		mockLogger.EXPECT().Error(gomock.Any())
+
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()
 
@@ -92,6 +104,9 @@ func TestHandler_DeleteStats(t *testing.T) {
 
 	t.Run("should be ok", func(t *testing.T) {
 		mockStorage.EXPECT().Reset()
+
+		// accesslog
+		mockLogger.EXPECT().Info(gomock.Any())
 
 		router := NewServer(gin.TestMode, mockStorage, mockLogger)
 		w := httptest.NewRecorder()

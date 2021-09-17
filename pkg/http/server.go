@@ -4,7 +4,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"     // swagger embed files
 	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
 
-	// swagger embed files
 	"github.com/brhamidi/fizzbuzz/pkg/logger"
 	"github.com/brhamidi/fizzbuzz/pkg/storage"
 	"github.com/gin-gonic/gin"
@@ -47,6 +46,9 @@ func NewServer(env string, store storage.Storage, log logger.Logger) *gin.Engine
 
 	// useful for monitoring our service and CI/CD tools
 	router.GET(healthRoute, h.Health)
+
+	// we dont want access log for the route above
+	router.Use(AccessLog(log))
 
 	router.GET(FizzbuzzRoute, h.Fizzbuzz)
 
