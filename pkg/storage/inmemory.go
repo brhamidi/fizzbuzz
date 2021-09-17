@@ -15,8 +15,6 @@ type inmemory struct {
 	maxHits int
 }
 
-// TODO apply the logic of keep the MAX value in seperate variable to prevent looping in GetStats operation
-
 func NewInmemory() *inmemory {
 	return &inmemory{data: make(map[string]int)}
 }

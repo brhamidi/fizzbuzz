@@ -1,4 +1,4 @@
-FROM golang:1.16 AS deps
+FROM golang:1.17 AS deps
 
 WORKDIR /go/src
 
@@ -21,4 +21,4 @@ COPY --from=build /go/bin/app /
 
 ENTRYPOINT ["/app"]
 
-# Make Dockerfile et Dockerfile.dev perform make swag to allow user to not have go to building the project
+# Make Dockerfile et Dockerfile.dev perform make swag to allow user to not have go installed in order to build the project

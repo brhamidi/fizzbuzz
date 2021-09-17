@@ -4,7 +4,7 @@ D_PATH=Dockerfile
 IGNORED_FOLDER=.ignore
 COVERAGE_FILE=$(IGNORED_FOLDER)/coverage.out
 
-.PHONY: up dev down tools cover-html cover clean test mock
+.PHONY: up dev down tools cover-html cover clean test lint mock
 
 ## up the local stack
 up:
@@ -23,6 +23,9 @@ down:
 mock:
 	@MOCK_FOLDER=${MOCK_FOLDER} go generate ./...
 
+lint:
+	@staticcheck ./...
+
 test: mock
 	@mkdir -p ${IGNORED_FOLDER}
 	@go test -gcflags=-l -count=1 -race -coverprofile=${COVERAGE_FILE} -covermode=atomic ./...
@@ -34,7 +37,6 @@ cover: ## Cover
 	fi
 	@go tool cover -func=${COVERAGE_FILE}
 
-
 cover-html: ## Cover html
 	@if [ ! -e ${COVERAGE_FILE} ]; then \
 		echo "Error: ${COVERAGE_FILE} doesn't exists. Please run \`make test\` then retry."; \
@@ -42,11 +44,9 @@ cover-html: ## Cover html
 	fi
 	@go tool cover -html=${COVERAGE_FILE}
 
-
 clean:
 	@rm -rf ${IGNORED_FOLDER}
 	@rm -rf ${COVERAGE_FILE}
-
 
 ##
 ## Swagger API generation
@@ -54,10 +54,10 @@ clean:
 swag:
 	@swag init -g ./pkg/http/server.go
 
-
 ##
 ## Tooling
 ##
 tools:
 	@go install github.com/golang/mock/mockgen@latest
 	@go install github.com/swaggo/swag/cmd/swag@latest
+	@go install honnef.co/go/tools/cmd/staticcheck@latest
