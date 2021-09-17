@@ -1,10 +1,18 @@
-### Todo
 
-- [ ] Make a global overview of the project ( self pre-review )
+Coverage Testing: 87.5% :innocent:
+
 
 # Fizzbuzz
 
-Fizz-buzz server
+This is a server that computes the result of a fizzbuzz .
+
+Read the file subject.txt for more reliable information about how the server works.
+
+The server can be run in persistent mode or inmemory mode for storing statistics.
+
+Just change the **STORE_MODE** environment variable to choose mode: set value (inmemory|persistent) in docker-compose file.
+
+Simply run `make up` and go to http://localhost:3000/swagger/index.html#/
 
 ## Requirements
 
@@ -24,7 +32,7 @@ They are two mode to run the service:
 - default mode
 - development mode
 
-`make up` to start the stack with all necessary services to run the order ingestion service.
+`make up` to start the stack with all necessary services to run service.
 
 `make dev` should be equivalent to the default mode with a hot reload system in addition, useful for development purposes.
 

@@ -17,7 +17,7 @@ services:
             # App config
             - PORT=3000
             - ENV=debug
-            - STORE_MODE=inmemory
+            - STORE_MODE=persistant
             # Redis config
             - REDIS_HOST=redis
             - REDIS_PORT=6379

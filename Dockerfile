@@ -20,5 +20,3 @@ FROM gcr.io/distroless/base-debian10
 COPY --from=build /go/bin/app /
 
 ENTRYPOINT ["/app"]
-
-# Make Dockerfile et Dockerfile.dev perform make swag to allow user to not have go installed in order to build the project
